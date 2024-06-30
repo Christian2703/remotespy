@@ -2511,11 +2511,6 @@ end)
 
 
 
-
-
-
-
-
 -- Remove existing UI if it exists
 for _, child in pairs(game:GetService("CoreGui").SimpleSpy2:GetChildren()) do
     if child.Name == "TrueFalseUi" then
@@ -2557,10 +2552,20 @@ ThunderImageUI.Position = UDim2.new(0.0, 0, 0.0, 0)
 ThunderImageUI.Size = UDim2.new(0, 50, 0, 50)
 ThunderImageUI.Image = "rbxassetid://17815973967"
 
--- Toggle the Enabled property of SimpleSpy2
-ThunderToggleUI.MouseButton1Click:Connect(function()
+-- Function to toggle the Enabled property of SimpleSpy2
+local function toggleSimpleSpy2()
     local simpleSpy2 = game:GetService("CoreGui").SimpleSpy2
     simpleSpy2.Enabled = not simpleSpy2.Enabled
+end
+
+-- Toggle using the button click
+ThunderToggleUI.MouseButton1Click:Connect(toggleSimpleSpy2)
+
+-- Toggle using the Ctrl key press
+game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
+    if not gameProcessedEvent and input.KeyCode == Enum.KeyCode.LeftControl or input.KeyCode == Enum.KeyCode.RightControl then
+        toggleSimpleSpy2()
+    end
 end)
 
 local dragging = false
@@ -2601,3 +2606,4 @@ game:GetService("UserInputService").InputChanged:Connect(function(input)
         updateInput(input)
     end
 end)
+
